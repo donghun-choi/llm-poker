@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.table-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(15, 81, 50, 0.85), rgba(11, 59, 46, 0.95));
+}

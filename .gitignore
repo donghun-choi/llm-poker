@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+frontend/node_modules/
+.vite/
+
+# Logs & state
+backend/logs/
+.omx/logs/
+.omx/state/
+.omx/metrics.json
+
+# OS
+.DS_Store
+
+# Local env samples
+.env.example
