@@ -18,7 +18,7 @@ function seatStyle(idx) {
   };
 }
 
-export default function Table({ players, communityCards, pot, activePlayerId, reasoning, onAction }) {
+export default function Table({ players, communityCards, pot, activePlayerId, reasoning, onAction, canAct }) {
   return (
     <div className="relative h-[600px] w-full rounded-3xl table-bg shadow-2xl border border-emerald-500/30 overflow-hidden">
       <div className="absolute inset-0">
@@ -33,7 +33,7 @@ export default function Table({ players, communityCards, pot, activePlayerId, re
         <PotDisplay pot={pot} />
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[70%]">
-        <ActionPanel onAction={onAction} />
+        <ActionPanel onAction={onAction} disabled={!canAct} />
       </div>
     </div>
   );

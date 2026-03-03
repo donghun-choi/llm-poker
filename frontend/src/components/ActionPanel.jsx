@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ActionPanel({ onAction }) {
+export default function ActionPanel({ onAction, disabled }) {
   const [raiseSize, setRaiseSize] = useState(50);
 
   return (
@@ -8,21 +8,24 @@ export default function ActionPanel({ onAction }) {
       <div className="flex items-center space-x-3">
         <button
           type="button"
-          className="rounded-lg bg-slate-700 px-3 py-2 text-sm font-semibold hover:bg-slate-600"
+          className="rounded-lg bg-slate-700 px-3 py-2 text-sm font-semibold hover:bg-slate-600 disabled:opacity-40"
+          disabled={disabled}
           onClick={() => onAction({ action: 'fold' })}
         >
           Fold
         </button>
         <button
           type="button"
-          className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold hover:bg-emerald-500"
+          className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold hover:bg-emerald-500 disabled:opacity-40"
+          disabled={disabled}
           onClick={() => onAction({ action: 'call' })}
         >
           Call
         </button>
         <button
           type="button"
-          className="rounded-lg bg-amber-500 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-amber-400"
+          className="rounded-lg bg-amber-500 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-amber-400 disabled:opacity-40"
+          disabled={disabled}
           onClick={() => onAction({ action: 'raise', amount: raiseSize })}
         >
           Raise ${raiseSize}

@@ -21,8 +21,9 @@ function App() {
   const [pot, setPot] = useState(0);
   const [reasoning, setReasoning] = useState({});
   const [provider, setProvider] = useState('openai');
+  const [isYourTurn, setIsYourTurn] = useState(false);
 
-  const { events } = useGameSocket(gameId);
+  const { events, sendAction, connected } = useGameSocket(gameId);
 
   useEffect(() => {
     async function createGame() {
@@ -44,16 +45,29 @@ function App() {
   useEffect(() => {
     if (!events.length) return;
     const latest = events[events.length - 1];
-    if (latest.type === 'showdown') {
+    if (latest.type === 'new_hand') {
+      setCommunityCards([]);
+      setPot(0);
+      setIsYourTurn(false);
+    }
+    if (latest.type === 'deal') {
       setCommunityCards(latest.data.community_cards || []);
     }
     if (latest.type === 'hand_result') {
       setPot(0);
+      setIsYourTurn(false);
+    }
+    if (latest.type === 'your_turn') {
+      setIsYourTurn(true);
+    }
+    if (latest.type === 'action' && latest.data.player === 'You') {
+      setIsYourTurn(false);
     }
   }, [events]);
 
   const onAction = (action) => {
-    console.log('Human action', action);
+    setIsYourTurn(false);
+    sendAction(action);
   };
 
   const onToggleProvider = async (value) => {
@@ -75,6 +89,7 @@ function App() {
           <div>
             <h1 className="text-2xl font-semibold">LLM Poker Bot</h1>
             <p className="text-sm text-slate-400">Play 6-max Texas Hold'em against AI personalities.</p>
+            <p className="text-xs text-slate-500">WS: {connected ? 'connected' : 'disconnected'}</p>
           </div>
           <BackendToggle value={provider} onChange={onToggleProvider} />
         </header>
@@ -86,6 +101,7 @@ function App() {
           activePlayerId={activePlayer.id}
           reasoning={reasoning}
           onAction={onAction}
+          canAct={isYourTurn}
         />
       </div>
     </div>
